@@ -26,7 +26,7 @@ new_file = open(join_file, "a", encoding='utf-8')
 for file_name in lst_file:
     full_file = os.path.join(src, file_name)
     if os.path.isfile(full_file) and full_file != join_file and os.path.splitext(file_name)[1][1:] == "txt":
-        with open(full_file) as file:
+        with open(full_file, encoding='utf-8') as file:
             new_file.write(file_name + "\n")
             new_file.write("-----------\n")
             new_file.write(file.read() + "\n")
