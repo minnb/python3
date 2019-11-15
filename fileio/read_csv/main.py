@@ -1,5 +1,4 @@
 import csv
-from collections import defaultdict
 
 
 def read_csv(file_name: str) -> list:
@@ -20,12 +19,55 @@ def region_list(data: list) -> set:
     return sorted(region_data)
 
 
-def type_list(data: list):
-    for d in data[0:]:
-        print(d[0], d[2])
+def type_list(data: list) -> set:
+    type_data = set()
+    for d in data[1:]:
+        if d[2]:
+            type_data.add((d[2]))
+    return sorted(type_data)
 
 
+def total_revenue(_data: list, _type: str):
+    total = 0
+    for d in _data[1:]:
+        if d[2] == _type:
+            total += float(d[11])
+    return total
 
-# print(read_csv('data.csv'))
-# print(region_list(read_csv('data.csv')))
-type_list(read_csv('data.csv'))
+
+def total_revenue_by_type(_data: list):
+    lst_type = type_list(_data)
+    data = dict()
+    for t in lst_type:
+        data[t] = total_revenue(_data, t)
+    return data
+
+
+def main():
+    again = True
+    data_sales = read_csv('data.csv')
+    while again:
+        print("=======")
+        print("1) List region")
+        print("2) List type")
+        print("3) Total revenue by type")
+        print("4) List total revenue with type")
+        print("5) Quit")
+        print()
+        selection = int(input("Enter your selection: "))
+        if selection == 1:
+            print(region_list(data_sales))
+        elif selection == 2:
+            print(type_list(data_sales))
+        elif selection == 3:
+            print(total_revenue(data_sales, "Baby Food"))
+        elif selection == 4:
+            print(total_revenue_by_type(data_sales))
+        elif selection == 5:
+            print("Good bye!!!")
+            again = False
+        else:
+            print("Incorrect selection")
+
+
+main()
